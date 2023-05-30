@@ -1,0 +1,46 @@
+#include <iostream>
+#include <cmath>
+
+const double PI = 3.14159265358979323846;
+
+class Circle {
+protected:
+    double radius;
+
+public:
+    Circle(double r) : radius(r) {}
+
+    double calculateArea() const {
+        return PI * radius * radius;
+    }
+
+    void printFieldsAndArea() const {
+        std::cout << "Radius: " << radius << std::endl;
+        std::cout << "Area: " << calculateArea() << std::endl;
+    }
+};
+
+class Sphere : public Circle {
+public:
+    Sphere(double r) : Circle(r) {}
+
+    double calculateVolume() const {
+        return (4.0 / 3.0) * PI * radius * radius * radius;
+    }
+
+    void printFieldsAndVolume() const {
+        std::cout << "Radius: " << radius << std::endl;
+        std::cout << "Volume: " << calculateVolume() << std::endl;
+    }
+};
+
+int main() {
+    Circle circle(3.0);
+    circle.printFieldsAndArea();  // вызов базовой функции
+
+    Sphere sphere(3.0);
+    sphere.printFieldsAndArea();  // вызов переопределенной базовой функции
+    sphere.printFieldsAndVolume();  // вызов функции из производного класса
+
+    return 0;
+}
