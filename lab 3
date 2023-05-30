@@ -1,0 +1,80 @@
+#include <iostream>
+#include <string>
+
+struct Pair {
+    int first;
+    int second;
+
+    Pair(int f = 0, int s = 0) : first(f), second(s) {}
+};
+
+class Fraction {
+private:
+    int integerPart;
+    unsigned int fractionalPart;
+
+public:
+    Fraction(int integer = 0, unsigned int fractional = 0)
+        : integerPart(integer), fractionalPart(fractional) {}
+
+    // Перегрузка оператора сложения
+    friend Fraction operator+(const Fraction& f1, const Fraction& f2) {
+        int newInteger = f1.integerPart + f2.integerPart;
+        unsigned int newFractional = f1.fractionalPart + f2.fractionalPart;
+        if (newFractional >= 100) {
+            newInteger += newFractional / 100;
+            newFractional %= 100;
+        }
+        return Fraction(newInteger, newFractional);
+    }
+
+    // Перегрузка оператора вычитания
+    friend Fraction operator-(const Fraction& f1, const Fraction& f2) {
+        int newInteger = f1.integerPart - f2.integerPart;
+        int newFractional = f1.fractionalPart - f2.fractionalPart;
+        if (newFractional < 0) {
+            newInteger--;
+            newFractional += 100;
+        }
+        return Fraction(newInteger, newFractional);
+    }
+
+    friend Fraction operator*(const Fraction& f1, const Fraction& f2) {
+        int newInteger = f1.integerPart * f2.integerPart;
+        unsigned int newFractional = f1.fractionalPart * f2.fractionalPart;
+        if (newFractional >= 100) {
+            newInteger += newFractional / 100;
+            newFractional %= 100;
+        }
+        return Fraction(newInteger, newFractional);
+    }
+    friend bool operator==(const Fraction& f1, const Fraction& f2) {
+        return (f1.integerPart == f2.integerPart && f1.fractionalPart == f2.fractionalPart);
+    }
+    friend std::ostream& operator<<(std::ostream& os, const Fraction& f) {
+        os << f.integerPart << "." << f.fractionalPart;
+        return os;
+    }
+};
+
+int main() {
+    Fraction f1(3, 50);
+    Fraction f2(2, 30);
+
+    Fraction sum = f1 + f2;
+    Fraction difference = f1 - f2;
+    Fraction product = f1 * f2;
+
+    std::cout << "f1 + f2 = " << sum << std::endl;
+    std::cout << "f1 - f2 = " << difference << std::endl;
+    std::cout << "f1 * f2 = " << product << std::endl;
+
+    if (f1 == f2) {
+        std::cout << "f1 is equal to f2" << std::endl;
+    }
+    else {
+        std::cout << "f1 is not equal to f2" << std::endl;
+    }
+
+    return 0;
+}
