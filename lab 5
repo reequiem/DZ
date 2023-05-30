@@ -1,0 +1,76 @@
+#include <iostream>
+#include <cmath>
+
+class StraightPrism {
+private:
+    double a; // Параллельные стороны
+    double b; // Параллельные стороны
+    double l; // Высота трапеции-основания
+    double h; // Высота призмы
+
+public:
+    StraightPrism(double sideA, double sideB, double heightTrapezoid, double heightPrism)
+        : a(sideA), b(sideB), l(heightTrapezoid), h(heightPrism) {}
+
+    double calculateBaseArea() {
+        return (a + b) * l / 2.0; // Формула площади равнобедренной трапеции
+    }
+
+    double calculateLateralSurfaceArea() {
+        double sideLength = sqrt(pow((a - b) / 2.0, 2) + pow(l, 2)); // Длина боковой грани
+        return (a + b + 2 * sideLength) * h; // Формула боковой поверхности прямой призмы
+    }
+
+    double calculateTotalSurfaceArea() {
+        double baseArea = calculateBaseArea();
+        double lateralSurfaceArea = calculateLateralSurfaceArea();
+        return baseArea + lateralSurfaceArea; // Формула полной поверхности прямой призмы
+    }
+
+    double calculateVolume() {
+        double baseArea = calculateBaseArea();
+        return baseArea * h; // Формула объема прямой призмы
+    }
+
+    double calculateWeight(double density) {
+        double volume = calculateVolume();
+        return volume * density; // Формула веса прямой призмы, где density - плотность металла
+    }
+};
+
+int main() {
+    setlocale(0, "RU");
+    double sideA, sideB, heightTrapezoid, heightPrism;
+    double density;
+
+    std::cout << "Введите длину параллельной стороны A: ";
+    std::cin >> sideA;
+
+    std::cout << "Введите длину параллельной стороны B: ";
+    std::cin >> sideB;
+
+    std::cout << "Введите высоту трапеции-основания: ";
+    std::cin >> heightTrapezoid;
+
+    std::cout << "Введите высоту призмы: ";
+    std::cin >> heightPrism;
+
+    std::cout << "Введите плотность металла: ";
+    std::cin >> density;
+
+    StraightPrism prism(sideA, sideB, heightTrapezoid, heightPrism);
+
+    double baseArea = prism.calculateBaseArea();
+    double lateralSurfaceArea = prism.calculateLateralSurfaceArea();
+    double totalSurfaceArea = prism.calculateTotalSurfaceArea();
+    double volume = prism.calculateVolume();
+    double weight = prism.calculateWeight(density);
+
+    std::cout << "Площадь основания: " << baseArea << std::endl;
+    std::cout << "Боковая поверхность: " << lateralSurfaceArea << std::endl;
+    std::cout << "Полная поверхность: " << totalSurfaceArea << std::endl;
+    std::cout << "Объем: " << volume << std::endl;
+    std::cout << "Вес: " << weight << std::endl;
+
+    return 0;
+}
